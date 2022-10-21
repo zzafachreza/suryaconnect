@@ -56,7 +56,7 @@ export default function Home({ navigation }) {
       });
     });
 
-    getDataProduk();
+
     getDataKategori();
 
     if (isFocused) {
@@ -66,13 +66,7 @@ export default function Home({ navigation }) {
   }, [isFocused]);
 
 
-  const getDataProduk = () => {
-    axios.post(urlAPI + '/1data_barang.php').then(res => {
-      console.log('barang', res.data);
 
-      setProduk(res.data);
-    })
-  }
 
   const getDataKategori = () => {
     axios.post(urlAPI + '/1data_kategori.php').then(res => {
@@ -114,139 +108,18 @@ export default function Home({ navigation }) {
   const windowHeight = Dimensions.get('window').height;
   const ratio = 192 / 108;
 
-
-  const __renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('Pinjam', item);
-      }}
-      style={{
-        backgroundColor: colors.background1,
-        flex: 1,
-        margin: 5,
-
-      }}>
-      <Image source={{
-        uri: item.image
-      }} style={{
-        alignSelf: 'center',
-        // resizeMode: 'contain',
-        width: '100%',
-        height: 200,
-
-      }} />
-
-      {item.diskon > 0 &&
-        <Text
-          style={{
-            fontSize: windowWidth / 30,
-            color: colors.textPrimary,
-            textAlign: 'right',
-            marginRight: 2,
-            textDecorationLine: 'line-through',
-            textDecorationStyle: 'solid',
-            fontFamily: fonts.secondary[600],
-          }}>
-          Rp. {new Intl.NumberFormat().format(item.harga_dasar)}
-        </Text>
-      }
-      {item.diskon > 0 && <Text
-        style={{
-          fontSize: windowWidth / 35,
-          padding: 5,
-          maxWidth: '40%',
-          margin: 2,
-          borderRadius: 5,
-          textAlign: 'center',
-          alignSelf: 'flex-end',
-          color: colors.white,
-          backgroundColor: colors.primary,
-          fontFamily: fonts.secondary[600],
-        }}>
-        Disc {new Intl.NumberFormat().format(item.diskon)}%
-      </Text>}
-
-
-
-      {item.diskon == 0 &&
-        <Text
-          style={{
-            fontSize: windowWidth / 30,
-            color: colors.zavalabs,
-            textAlign: 'right',
-            marginLeft: 5,
-            textDecorationLine: 'line-through',
-            textDecorationStyle: 'solid',
-            fontFamily: fonts.secondary[600],
-          }}>
-
-        </Text>
-      }
-      {item.diskon == 0 && <Text
-        style={{
-          fontSize: windowWidth / 35,
-          padding: 5,
-          maxWidth: '40%',
-          margin: 2,
-          borderRadius: 5,
-          textAlign: 'center',
-          alignSelf: 'flex-end',
-          color: colors.primary,
-
-          fontFamily: fonts.secondary[600],
-        }}>
-
-      </Text>}
-
-
-
-      <Text
-        style={{
-          paddingLeft: 5,
-          fontSize: windowWidth / 25,
-          color: colors.price,
-          fontFamily: fonts.secondary[600],
-        }}>
-        Rp. {new Intl.NumberFormat().format(item.harga_barang)}
-      </Text>
-      {/* <Text
-        style={{
-          padding: 5,
-          backgroundColor: colors.primary,
-          fontSize: windowWidth / 35,
-          color: colors.white, borderRadius: 2,
-          fontFamily: fonts.secondary[400],
-        }}>
-        {item.nama_kategori}
-      </Text> */}
-      <Text
-        style={{
-          padding: 5,
-          height: 50,
-          fontSize: windowWidth / 30,
-          color: colors.textPrimary, borderRadius: 2,
-          fontFamily: fonts.secondary[400],
-        }}>
-        {item.nama_barang}
-      </Text>
-
-
-
-
-
-
-    </TouchableOpacity>
-  );
-
   const __renderItemKategori = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Barang', {
         key: item.id,
         id_user: user.id
       })} style={{
-        backgroundColor: colors.background1,
-        margin: 3,
-        flex: 1,
+        backgroundColor: colors.secondary,
+        marginHorizontal: 5,
+        borderRadius: 5,
+        overflow: 'hidden',
+        flex: 0.5,
+        marginVertical: 5,
 
       }}>
 
@@ -257,8 +130,7 @@ export default function Home({ navigation }) {
         }}>
           <Image style={{
             width: '100%',
-            height: 150,
-            resizeMode: 'contain'
+            height: 100,
 
           }} source={{
             uri: item.image
@@ -266,7 +138,8 @@ export default function Home({ navigation }) {
         </View>
         <Text style={{
           textAlign: 'center',
-          color: colors.textPrimary,
+          padding: 10,
+          color: colors.white,
           fontFamily: fonts.secondary[600],
           fontSize: windowWidth / 30,
         }}>{item.nama_kategori}</Text>

@@ -116,50 +116,17 @@ export default function ({ navigation, route }) {
           }}>
           <Text style={{
             fontSize: windowWidth / 30,
-            fontFamily: fonts.secondary[400],
+            fontFamily: fonts.secondary[600],
             color: colors.textPrimary,
-          }}>Telepon</Text>
-          <Text
-            style={{
-              fontSize: windowWidth / 30,
-              fontFamily: fonts.secondary[600],
-              color: colors.textPrimary,
-            }}>
-            {item.telepon}
-          </Text>
-          <Text
-            style={{
-              fontSize: windowWidth / 30,
-              fontFamily: fonts.secondary[600],
-              color: colors.textPrimary,
-            }}>
-            {item.paket}
-          </Text>
-
-        </View>
-        <View
-          style={{
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-
-            flex: 1,
-          }}>
-
+          }}>Catatan Pesanan</Text>
           <Text style={{
             fontSize: windowWidth / 30,
             fontFamily: fonts.secondary[400],
             color: colors.textPrimary,
-          }}>Total Pembayaran</Text>
-          <Text
-            style={{
-              fontSize: windowWidth / 20,
-              fontFamily: fonts.secondary[600],
-              color: colors.textPrimary,
-            }}>
-            Rp. {new Intl.NumberFormat().format(item.total_bayar)}
-          </Text>
+          }}>{item.catatan}</Text>
 
         </View>
+
       </View>
     </TouchableOpacity>
   );

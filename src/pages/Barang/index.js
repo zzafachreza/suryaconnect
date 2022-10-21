@@ -135,20 +135,81 @@ export default function ({ navigation, route }) {
           }}>
           {item.keterangan}
         </Text>
-        <Text
-          style={{
-            marginVertical: 5,
-            fontSize: windowWidth / 25,
-            color: colors.black,
-            fontFamily: fonts.secondary[600],
-          }}>
-          {new Intl.NumberFormat().format(item.harga_barang)} <Text style={{
-            fontSize: 12,
-            fontFamily: fonts.secondary[400],
-            paddingHorizontal: 2,
-            borderRadius: 5,
-          }}>/ {item.satuan}</Text>
-        </Text>
+        <View style={{
+          flexDirection: 'row',
+
+        }}>
+          <Text
+            style={{
+              marginVertical: 5,
+              fontSize: windowWidth / 35,
+              color: colors.white,
+              paddingHorizontal: 5,
+              backgroundColor: colors.primary,
+              borderRadius: 3,
+              marginHorizontal: 2,
+              fontFamily: fonts.secondary[600],
+            }}>
+            {item.satuan}
+          </Text>
+          {item.satuan2 !== "" && <Text
+            style={{
+              marginVertical: 5,
+              fontSize: windowWidth / 35,
+              color: colors.white,
+              paddingHorizontal: 5,
+              backgroundColor: colors.primary,
+              borderRadius: 3,
+              marginHorizontal: 2,
+              fontFamily: fonts.secondary[600],
+            }}>
+            {item.satuan2}
+          </Text>}
+
+          {item.satuan3 !== "" && <Text
+            style={{
+              marginVertical: 5,
+              fontSize: windowWidth / 35,
+              color: colors.white,
+              paddingHorizontal: 5,
+              backgroundColor: colors.primary,
+              borderRadius: 3,
+              marginHorizontal: 2,
+              fontFamily: fonts.secondary[600],
+            }}>
+            {item.satuan3}
+          </Text>}
+
+          {item.satuan4 !== "" && <Text
+            style={{
+              marginVertical: 5,
+              fontSize: windowWidth / 35,
+              color: colors.white,
+              paddingHorizontal: 5,
+              backgroundColor: colors.primary,
+              borderRadius: 3,
+              marginHorizontal: 2,
+              fontFamily: fonts.secondary[600],
+            }}>
+            {item.satuan4}
+          </Text>}
+
+          {item.satuan5 !== "" && <Text
+            style={{
+              marginVertical: 5,
+              fontSize: windowWidth / 35,
+              color: colors.white,
+              paddingHorizontal: 5,
+              backgroundColor: colors.primary,
+              borderRadius: 3,
+              marginHorizontal: 2,
+              fontFamily: fonts.secondary[600],
+            }}>
+            {item.satuan5}
+          </Text>}
+
+
+        </View>
         <TouchableOpacity onPress={() => {
           axios.post(urlAPI + '/1add_wish.php', {
             fid_user: user.id,
@@ -190,10 +251,10 @@ export default function ({ navigation, route }) {
 
         }} />
         <TouchableOpacity onPress={() => {
-          // navigation.navigate('BarangDetail', item);
-          setShow(item)
+          navigation.navigate('BarangDetail', item);
+          // setShow(item)
 
-          modalizeRef.current.open();
+          // modalizeRef.current.open();
 
         }} style={{
           width: 80,
@@ -209,7 +270,7 @@ export default function ({ navigation, route }) {
             fontSize: windowWidth / 30,
             color: colors.primary,
             fontFamily: fonts.secondary[600],
-          }}>Tambah</Text>
+          }}>Detail</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -295,19 +356,17 @@ export default function ({ navigation, route }) {
         flexDirection: 'row'
       }}>
 
-        {route.params.key == 0 && (
-          <View style={{
-            flex: 0.3,
+        <View style={{
+          flex: 0.3,
 
-          }}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={kategori}
-              renderItem={__renderItemKategori}
-              keyExtractor={item => item.id}
-            />
-          </View>
-        )}
+        }}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={kategori}
+            renderItem={__renderItemKategori}
+            keyExtractor={item => item.id}
+          />
+        </View>
 
         <View style={{
           flex: 1,

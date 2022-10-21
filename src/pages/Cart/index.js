@@ -93,22 +93,22 @@ export default function Cart({ navigation, route }) {
 
       setTimeout(() => {
         setLoading(false);
-        // navigation.navigate('Checkout', dd)
+        navigation.navigate('Checkout', dd)
       }, 1500)
 
 
-      console.log(dd);
-      axios.post(urlAPI + '/1add_transaksi.php', dd).then(rr => {
-        console.log(rr.data);
-        setTimeout(() => {
-          setLoading(false);
-          showMessage({
-            type: 'success',
-            message: 'Transaksi kamu berhasil dikirim'
-          })
-          navigation.replace('ListData')
-        }, 1500)
-      })
+      // console.log(dd);
+      // axios.post(urlAPI + '/1add_transaksi.php', dd).then(rr => {
+      //   console.log(rr.data);
+      //   setTimeout(() => {
+      //     setLoading(false);
+      //     showMessage({
+      //       type: 'success',
+      //       message: 'Transaksi kamu berhasil dikirim'
+      //     })
+      //     navigation.replace('ListData')
+      //   }, 1500)
+      // })
 
 
     });
@@ -126,10 +126,7 @@ export default function Cart({ navigation, route }) {
         berat_total: beratTotal
       }
 
-      setTimeout(() => {
-        setLoading(false);
-        // navigation.navigate('Checkout', dd)
-      }, 1500)
+
 
 
       console.log(dd);
@@ -187,6 +184,9 @@ export default function Cart({ navigation, route }) {
       <View style={{
         backgroundColor: colors.background1,
         marginVertical: 3,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.zavalabs,
+        paddingBottom: 5,
       }}>
         <View
           style={{
@@ -221,9 +221,19 @@ export default function Cart({ navigation, route }) {
                 fontFamily: fonts.secondary[400],
                 flex: 1,
                 fontSize: windowWidth / 30,
-                color: colors.textPrimary
+                color: colors.black
               }}>
-              {new Intl.NumberFormat().format(item.harga)} x {item.qty}
+              {item.qty} {item.uom}
+            </Text>
+            <Text
+              style={{
+                fontFamily: fonts.secondary[400],
+                flex: 1,
+                fontStyle: "italic",
+                fontSize: windowWidth / 35,
+                color: colors.border
+              }}>
+              {item.note}
             </Text>
           </View>
 
@@ -235,52 +245,57 @@ export default function Cart({ navigation, route }) {
             <Text
               style={{
                 fontFamily: fonts.secondary[600],
-                color: colors.textPrimary,
-                fontSize: windowWidth / 20,
+                color: colors.white,
+                borderRadius: 5,
+                backgroundColor: colors.secondary,
+                paddingHorizontal: 10,
+                fontSize: windowWidth / 25,
+                textAlign: 'center'
               }}>
-              {new Intl.NumberFormat().format(item.total)}
+              {item.uom}
             </Text>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end'
+            }}>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setItem(item);
+                  modalizeRef.current.open();
+                }}
+                style={{
+                  marginHorizontal: 5,
+                }}>
+                <Icon type='ionicon' name='create' color={colors.primary} />
+              </TouchableOpacity>
+
+
+              <TouchableOpacity onPress={() => {
+
+
+                Alert.alert(
+                  "Apakah kamu yakin akan menghapus ini ?",
+                  item.nama_barang,
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                    },
+                    { text: "OK", onPress: () => hanldeHapus(item.id) }
+                  ]
+                );
+
+              }} style={{
+                marginHorizontal: 5,
+              }}>
+                <Icon type='ionicon' name='trash' color={colors.danger} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end'
-        }}>
 
-          <TouchableOpacity
-            onPress={() => {
-              setItem(item);
-              modalizeRef.current.open();
-            }}
-            style={{
-              marginHorizontal: 5,
-            }}>
-            <Icon type='ionicon' name='create' color={colors.primary} />
-          </TouchableOpacity>
-
-
-          <TouchableOpacity onPress={() => {
-
-
-            Alert.alert(
-              "Apakah kamu yakin akan menghapus ini ?",
-              item.nama_barang,
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                { text: "OK", onPress: () => hanldeHapus(item.id) }
-              ]
-            );
-
-          }} style={{
-            marginHorizontal: 5,
-          }}>
-            <Icon type='ionicon' name='trash' color={colors.danger} />
-          </TouchableOpacity>
-        </View>
       </View >
 
     );
@@ -466,7 +481,7 @@ export default function Cart({ navigation, route }) {
             flex: 1,
             paddingLeft: 5,
           }}>
-            <MyButton warna={colors.primary} onPress={kirimServer} title="CHECKOUT" Icons="download" />
+            <MyButton warna={colors.primary} onPress={kirimServer} title="ORDER KE TOKO" Icons="download" />
           </View>
 
         </View>}

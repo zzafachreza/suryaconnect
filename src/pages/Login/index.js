@@ -103,8 +103,8 @@ export default function Login({ navigation }) {
           <Image
             source={require('../../assets/logo.png')}
             style={{
-              width: 150,
-              height: 150,
+              width: 200,
+              height: 200,
               // aspectRatio: 1,
             }}
           />
@@ -149,41 +149,7 @@ export default function Login({ navigation }) {
             }
           />
 
-          {!show && <TouchableOpacity onPress={() => {
-            setShow(true)
-          }} style={{
-            paddingHorizontal: 5,
-            paddingVertical: 10,
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-            flexDirection: 'row'
-          }}>
-            <Icon size={windowWidth / 25} color={colors.textPrimary} type='ionicon' name='eye-off-outline' />
-            <Text style={{
-              left: 5,
-              fontFamily: fonts.secondary[600],
-              fontSize: windowWidth / 30,
-              color: colors.textPrimary,
-            }}>Hide Password</Text>
-          </TouchableOpacity>}
 
-          {show && <TouchableOpacity onPress={() => {
-            setShow(false)
-          }} style={{
-            paddingHorizontal: 5,
-            paddingVertical: 10,
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-            flexDirection: 'row'
-          }}>
-            <Icon size={windowWidth / 25} color={colors.textPrimary} type='ionicon' name='eye-outline' />
-            <Text style={{
-              left: 5,
-              color: colors.textPrimary,
-              fontFamily: fonts.secondary[600],
-              fontSize: windowWidth / 30
-            }}>Show Password</Text>
-          </TouchableOpacity>}
           <MyGap jarak={40} />
           {valid && (
             <MyButton

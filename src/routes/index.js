@@ -70,7 +70,7 @@ const MainApp = () => {
   return (
     <Tab.Navigator tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Kategori" component={Barang} />
+      <Tab.Screen name="Suggest" component={Add} />
 
       <Tab.Screen name="History" component={ListData} />
 

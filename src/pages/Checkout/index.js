@@ -36,7 +36,14 @@ export default function Checkout({ navigation, route }) {
 
   const [kirim, setKirim] = useState(route.params);
   const [user, setUser] = useState({});
-  const [kurir, setKurir] = useState([]);
+  const [kurir, setKurir] = useState([
+    {
+      nama_kirim: 'Antar',
+    },
+    {
+      nama_kirim: 'Ambil Sendiri',
+    }
+  ]);
   const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -45,57 +52,36 @@ export default function Checkout({ navigation, route }) {
       setUser(res);
       setKirim({
         ...kirim,
-        destination: res.fid_kota,
-        total_ongkir: 0,
-        harga_total: 0
-      })
-    });
-
-    axios.post(urlAPI + '/1data_company.php').then(c => {
-      // console.error(c.data)
-      setCompany(c.data);
-      setKirim({
-        ...kirim,
-        origin: c.data.fid_kota
+        catatan: '',
       })
     });
 
 
 
-    axios.post(urlAPI + '/1data_kurir.php').then(c => {
-      setKurir(c.data);
-    })
   }, []);
 
 
 
   const simpan = () => {
+    setLoading(true)
     console.error('kirim', kirim);
-    if (kirim.total_ongkir == null) {
-      showMessage({
-        type: 'danger',
-        message: 'Opsi pengiriman harus di isi !'
-      })
-    } else {
-      setLoading(true);
-      // console.log('kirim ke server', item);
+    axios.post(urlAPI + '/1add_transaksi.php', kirim).then(rr => {
+      console.log(rr.data);
       setTimeout(() => {
-        axios
-          .post(urlAPI + '/1add_transaksi.php', kirim)
-          .then(res => {
-            console.log(res.data);
-
-            setLoading(false);
-          });
-
-        navigation.replace('MainApp');
+        setLoading(false);
         showMessage({
           type: 'success',
-          message: 'Transaksi Berhasil, Terima kasih',
+          message: 'Transaksi kamu berhasil dikirim'
         });
-      }, 1200);
-    }
+
+        Linking.openURL(rr.data)
+
+        navigation.replace('ListData');
+      }, 1500)
+    })
+
   };
+
 
   return (
     <>
@@ -105,10 +91,10 @@ export default function Checkout({ navigation, route }) {
           {/* data penerima */}
 
           <View style={{
-            backgroundColor: colors.background2,
+            backgroundColor: colors.zavalabs,
             padding: 10,
             borderBottomWidth: 1,
-            borderBottomColor: colors.border
+            borderBottomColor: colors.border_list,
           }}>
             <Text style={{
               color: colors.textPrimary,
@@ -130,246 +116,35 @@ export default function Checkout({ navigation, route }) {
               fontFamily: fonts.secondary[400],
               fontSize: windowWidth / 30,
               color: colors.textPrimary
-            }}>{user.alamat} {user.nama_kota} {user.nama_provinsi}</Text>
+            }}>{user.alamat}</Text>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              borderBottomWidth: 1,
-              borderBottomColor: colors.border,
-            }}>
-            <Text
-              style={{
-                flex: 1,
-                color: colors.textPrimary,
-                fontSize: windowWidth / 30,
-                fontFamily: fonts.secondary[400],
-                padding: 10,
-              }}>
-              Total Transaksi
-            </Text>
-            <Text
-              style={{
-                color: colors.textPrimary,
-                fontSize: windowWidth / 25,
-                fontFamily: fonts.secondary[600],
-                padding: 10,
-              }}>
-              Rp. {new Intl.NumberFormat().format(kirim.harga_total)}
-            </Text>
+
+
+
+
+
+
+
+
+          <View style={{
+            padding: 10,
+          }}>
+            <MyInput onChangeText={x => setKirim({
+              ...kirim,
+              catatan: x
+            })} placeholder="Masukan catatan untuk pesanan" iconname="create" label="Catatan untuk Pesanan" />
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              borderBottomWidth: 1,
-              borderBottomColor: colors.border,
-            }}>
-            <Text
-              style={{
-                flex: 1,
-                color: colors.textPrimary,
-                fontSize: windowWidth / 30,
-                fontFamily: fonts.secondary[400],
-                padding: 10,
-              }}>
-              Total Berat
-            </Text>
-            <Text
-              style={{
-                color: colors.textPrimary,
-                fontSize: windowWidth / 25,
-                fontFamily: fonts.secondary[400],
-                padding: 10,
-              }}>
-              {new Intl.NumberFormat().format(kirim.berat_total)} gr
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              borderBottomWidth: 1,
-              borderBottomColor: colors.border,
-            }}>
-            <Text
-              style={{
-                flex: 1,
-                color: colors.textPrimary,
-                fontSize: windowWidth / 30,
-                fontFamily: fonts.secondary[400],
-                padding: 10,
-              }}>
-              Opsi Pengiriman
-            </Text>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={{
-              paddingVertical: 10,
-              paddingHorizontal: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: colors.primary,
-              flexDirection: 'row'
-            }}>
-              <Icon type='ionicon' name='create-outline' size={windowWidth / 30} color={colors.white} />
-              <Text style={{
-                left: 5,
-                color: colors.white,
-                fontSize: windowWidth / 30,
-                fontFamily: fonts.secondary[600],
-              }}>Pilih</Text>
-            </TouchableOpacity>
-          </View>
-          {open &&
 
-            <View>
-
-              <View
-                style={{
-                  backgroundColor: colors.background4,
-                  flexDirection: 'row',
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.border,
-                }}>
-                <Text
-                  style={{
-                    flex: 1,
-                    color: colors.textPrimary,
-                    fontSize: windowWidth / 30,
-                    fontFamily: fonts.secondary[600],
-                    padding: 10,
-                  }}>
-                  {kirim.nama_kurir}
-                </Text>
-                <Image source={{
-                  uri: kirim.foto_kurir
-                }} style={{
-                  margin: 5,
-                  resizeMode: 'contain',
-                  width: 100,
-                  height: 30,
-
-                }} />
-
-              </View>
-
-              {/* kurir */}
-
-              {/* paket Kurir */}
-              {!loading2 && <View
-                style={{
-                  borderBottomWidth: 1,
-                  backgroundColor: colors.background4,
-                  borderBottomColor: colors.border,
-                  padding: 10,
-                }}>
-                {paket.map((p, i) => {
-                  return (
-                    <TouchableOpacity onPress={() => {
-
-                      const numbers = paket;
-                      const evens = numbers.filter((item, index) => index === i);
-                      console.log(evens); // [2, 4]
-                      setPaket(evens);
-
-                      // console.log(paket);
-
-
-                      setKirim({
-                        ...kirim,
-                        layanan_kurir: p.description,
-                        paket_kurir: p.service,
-                        total_ongkir: p.cost[0].value,
-                        estimasi_kurir: p.cost[0].etd
-                      })
-                    }} style={{
-                      padding: 5,
-                      marginVertical: 2,
-                      flexDirection: 'row',
-
-                    }}>
-                      <View style={{
-                        flex: 1
-                      }}>
-                        <Text style={{
-                          fontFamily: fonts.secondary[600],
-                          fontSize: windowWidth / 30,
-                          color: colors.textPrimary,
-                        }}>{p.service}</Text>
-                        <Text style={{
-                          fontFamily: fonts.secondary[400],
-                          fontSize: windowWidth / 30,
-                          color: colors.textPrimary,
-                        }}>{p.description}</Text>
-                      </View>
-                      <View style={{
-                        justifyContent: 'flex-end',
-                        alignItems: 'flex-end'
-                      }}>
-                        <Text style={{
-                          fontFamily: fonts.secondary[600],
-                          fontSize: windowWidth / 30,
-                          color: colors.textPrimary,
-                        }}>{new Intl.NumberFormat().format(p.cost[0].value)}</Text>
-                        <Text style={{
-                          fontFamily: fonts.secondary[400],
-                          fontSize: windowWidth / 30,
-                          color: colors.textPrimary,
-                        }}>{p.cost[0].etd} hari</Text>
-                      </View>
-                    </TouchableOpacity>
-                  )
-                })}
-              </View>}
-
-              {loading2 && (
-                <View style={{
-                  padding: 20,
-                }}>
-                  <ActivityIndicator color={colors.primary} size="large" />
-                </View>
-              )}
-              {/* paket kurir */}
-            </View>
-
-
-
-          }
 
 
         </ScrollView>
-        <View
-          style={{
-            backgroundColor: colors.background5,
-            flexDirection: 'row',
-            borderBottomWidth: 1,
-            borderBottomColor: colors.border,
-          }}>
-          <Text
-            style={{
-              flex: 1,
-              color: colors.textPrimary,
-              fontSize: windowWidth / 30,
-              fontFamily: fonts.secondary[400],
-              padding: 10,
-            }}>
-            Total Pembayaran
-          </Text>
-          <Text
-            style={{
-              color: colors.textPrimary,
-              fontSize: windowWidth / 20,
-              fontFamily: fonts.secondary[600],
-              padding: 10,
-            }}>
-            {/* Rp. {new Intl.NumberFormat().format(kirim.harga_total + kirim.total_ongkir)} */}
 
-            Rp. {new Intl.NumberFormat().format(kirim.total_ongkir == null ? 0 : kirim.harga_total + kirim.total_ongkir)}
-          </Text>
-        </View>
 
-        <View style={{ padding: 10, backgroundColor: colors.background5, }}>
+        <View style={{ padding: 10, backgroundColor: colors.white, }}>
           <MyButton
             onPress={simpan}
-            title="SIMPAN PESANAN"
+            title="TERUSKAN ORDER KE TOKO"
             warna={colors.primary}
             Icons="cloud-upload"
             style={{
@@ -378,119 +153,7 @@ export default function Checkout({ navigation, route }) {
           />
         </View>
 
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
 
-            setModalVisible(false);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderBottomColor: colors.border,
-                borderBottomWidth: 1,
-              }}>
-                <Text style={{
-                  flex: 1,
-                  margin: 10,
-                  marginBottom: 15,
-                  fontFamily: fonts.secondary[600],
-                  textAlign: "center"
-                }}>Opsi Pengiriman</Text>
-                <Pressable
-                  style={{
-                    padding: 10,
-                  }}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={{
-                    fontFamily: fonts.secondary[600],
-                    color: colors.primary,
-                    fontSize: windowWidth / 20,
-                    textAlign: 'center'
-                  }}>X</Text>
-                </Pressable>
-              </View>
-
-              {kurir.map(i => {
-                return (
-                  <Pressable onPress={() => {
-                    console.log(kirim);
-                    setModalVisible(false);
-                    setKirim({
-                      ...kirim,
-                      nama_kurir: i.nama_kurir,
-                      foto_kurir: i.image,
-                      kode_kurir: i.kode_kurir,
-                    });
-
-                    setLoading2(true);
-
-                    const dt = {
-                      origin: company.fid_kota,
-                      originType: 'city',
-                      destination: user.fid_kota,
-                      destinationType: 'city',
-                      weight: kirim.berat_total,
-                      courier: i.kode_kurir,
-
-                    };
-
-                    console.warn('kirim ongkir', dt)
-
-
-                    fetch('https://pro.rajaongkir.com/api/cost', {
-                      method: 'POST',
-                      headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'key': '5106929e87e49fdd84a96e55f515f522'
-                      },
-                      body: JSON.stringify(dt)
-                    }).then((response) => response.json())
-                      .then((json) => {
-                        setOpen(true);
-                        setLoading2(false);
-                        console.log(json.rajaongkir.results[0].costs);
-                        setPaket(json.rajaongkir.results[0].costs)
-                      })
-
-
-                  }} style={{
-                    padding: 10,
-                    marginVertical: 2,
-                    flexDirection: 'row',
-                    borderBottomWidth: 1,
-                    borderBottomColor: colors.border
-                  }}>
-
-                    <Text style={{
-                      flex: 1,
-                      fontFamily: fonts.secondary[600],
-                      fontSize: windowWidth / 30
-                    }}>{i.nama_kurir}</Text>
-                    <Image source={{
-                      uri: i.image
-                    }} style={{
-                      resizeMode: 'contain',
-                      width: 100,
-                      height: 30,
-
-                    }} />
-                  </Pressable>
-                )
-              })}
-
-            </View>
-          </View>
-        </Modal>
 
 
       </SafeAreaView>

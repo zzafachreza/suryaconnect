@@ -1,6 +1,6 @@
 export const colors = {
   primary: '#265B89',
-  secondary: '#E50633',
+  secondary: '#565658',
   tertiary: '#000000',
   background1: '#FFFFFF',
   background2: '#2B2937',
@@ -18,5 +18,6 @@ export const colors = {
   white: 'white',
   border: '#8E8E96',
   border_list: '#E8E8E8',
+  zavalabs: '#EFEFEF'
 
 };

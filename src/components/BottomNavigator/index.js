@@ -62,8 +62,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         } else if (label === 'Kategori') {
           iconName = 'grid-outline';
           Newlabel = 'Kategori';
-        } else if (label === 'Asset') {
-          iconName = 'pulse-outline';
+        } else if (label === 'Suggest') {
+          iconName = 'duplicate-outline';
+          Newlabel = 'Suggest';
         } else if (label === 'History') {
           iconName = 'file-tray-stacked-outline';
           Newlabel = 'History';
