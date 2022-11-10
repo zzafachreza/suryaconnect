@@ -110,22 +110,7 @@ export default function ({ navigation, route }) {
           borderTopColor: colors.primary,
         }}>
 
-        <View
-          style={{
-            flex: 1,
-          }}>
-          <Text style={{
-            fontSize: windowWidth / 30,
-            fontFamily: fonts.secondary[600],
-            color: colors.textPrimary,
-          }}>Catatan Pesanan</Text>
-          <Text style={{
-            fontSize: windowWidth / 30,
-            fontFamily: fonts.secondary[400],
-            color: colors.textPrimary,
-          }}>{item.catatan}</Text>
 
-        </View>
 
       </View>
     </TouchableOpacity>

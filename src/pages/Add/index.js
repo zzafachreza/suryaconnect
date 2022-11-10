@@ -13,6 +13,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import { Icon } from 'react-native-elements';
 import { showMessage } from 'react-native-flash-message';
+import MyHeader from '../../components/MyHeader';
 
 export default function ({ navigation, route }) {
 
@@ -45,6 +46,7 @@ export default function ({ navigation, route }) {
     const [data, setData] = useState([]);
     const [kirim, setKirim] = useState({
         nama_saran: '',
+        harga_saran: '',
         foto: ''
     });
 
@@ -88,7 +90,7 @@ export default function ({ navigation, route }) {
                 switch (xyz) {
                     case 1:
                         setKirim({
-                            ...data,
+                            ...kirim,
                             foto: `data:${response.type};base64, ${response.base64}`,
                         });
                         setfoto1(`data:${response.type};base64, ${response.base64}`);
@@ -111,7 +113,7 @@ export default function ({ navigation, route }) {
                 switch (xyz) {
                     case 1:
                         setKirim({
-                            ...data,
+                            ...kirim,
                             foto: `data:${response.type};base64, ${response.base64}`,
                         });
                         setfoto1(`data:${response.type};base64, ${response.base64}`);
@@ -183,37 +185,55 @@ export default function ({ navigation, route }) {
 
     useEffect(() => {
         requestCameraPermission();
+        getData('user').then(u => {
+            setKirim({
+                ...kirim,
+                fid_user: u.id
+            })
+        })
     }, [])
 
     return (
-        <SafeAreaView style={{
-            flex: 1,
-            padding: 10,
-            justifyContent: 'center',
-            backgroundColor: colors.background1
-        }}>
+        <>
+            <ScrollView>
+                <MyHeader />
+                <SafeAreaView style={{
+                    flex: 1,
+                    padding: 10,
+                    justifyContent: 'center',
+                    backgroundColor: colors.background1
+                }}>
 
 
-            <MyInput value={kirim.nama_saran} onChangeText={x => {
-                setKirim({
-                    ...kirim,
-                    nama_saran: x
-                })
-            }} autoFocus label="Masukan Suggest Produk" iconname="cube" />
+                    <MyInput value={kirim.nama_saran} onChangeText={x => {
+                        setKirim({
+                            ...kirim,
+                            nama_saran: x
+                        })
+                    }} autoFocus label="Masukan Suggest Produk" iconname="cube" />
+
+                    <MyInput value={kirim.harga_saran} onChangeText={x => {
+                        setKirim({
+                            ...kirim,
+                            harga_saran: x
+                        })
+                    }} autoFocus label="Masukan Kisaran harga" iconname="cash" />
 
 
-            <UploadFoto
-                onPress1={() => getCamera(1)}
-                onPress2={() => getGallery(1)}
-                label="Upload Foto Produk"
-                foto={foto1}
-            />
+                    <UploadFoto
+                        onPress1={() => getCamera(1)}
+                        onPress2={() => getGallery(1)}
+                        label="Upload Foto Produk"
+                        foto={foto1}
+                    />
 
-            <MyGap jarak={10} />
-            {!loading && <MyButton onPress={__sendServer} title="Kirim Sugggest Produk" Icons="cloud-upload-outline" warna={colors.primary} />}
-            {loading && <ActivityIndicator color={colors.secondary} size="large" />}
+                    <MyGap jarak={10} />
+                    {!loading && <MyButton onPress={__sendServer} title="Kirim Sugggest Produk" Icons="cloud-upload-outline" warna={colors.primary} />}
+                    {loading && <ActivityIndicator color={colors.secondary} size="large" />}
 
-        </SafeAreaView >
+                </SafeAreaView >
+            </ScrollView>
+        </>
     )
 }
 

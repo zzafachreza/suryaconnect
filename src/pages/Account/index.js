@@ -74,6 +74,76 @@ export default function Account({ navigation, route }) {
                   fontFamily: fonts.secondary[600],
                   color: colors.black,
                 }}>
+                Customer ID
+              </Text>
+              <Text
+                style={{
+                  fontFamily: fonts.secondary[400],
+                  color: colors.primary,
+                }}>
+                {user.id_customer}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                marginVertical: 3,
+                padding: 10,
+                backgroundColor: colors.white,
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.secondary[600],
+                  color: colors.black,
+                }}>
+                Nama Toko
+              </Text>
+              <Text
+                style={{
+                  fontFamily: fonts.secondary[400],
+                  color: colors.primary,
+                }}>
+                {user.nama_toko}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                marginVertical: 3,
+                padding: 10,
+                backgroundColor: colors.white,
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.secondary[600],
+                  color: colors.black,
+                }}>
+                Alamat Toko
+              </Text>
+              <Text
+                style={{
+                  fontFamily: fonts.secondary[400],
+                  color: colors.primary,
+                }}>
+                {user.alamat_toko}
+              </Text>
+            </View>
+
+
+            <View
+              style={{
+                marginVertical: 3,
+                padding: 10,
+                backgroundColor: colors.white,
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  fontFamily: fonts.secondary[600],
+                  color: colors.black,
+                }}>
                 Nama Lengkap
               </Text>
               <Text

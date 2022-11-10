@@ -15,7 +15,7 @@ import {
 import { getData, storeData, urlAPI } from '../../utils/localStorage';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MyButton, MyInput, MyPicker } from '../../components';
+import { MyButton, MyGap, MyInput, MyPicker } from '../../components';
 import { colors } from '../../utils/colors';
 import { TouchableOpacity, Swipeable } from 'react-native-gesture-handler';
 import { fonts, windowHeight, windowWidth } from '../../utils/fonts';
@@ -26,6 +26,7 @@ import 'intl/locale-data/jsonp/en';
 import { showMessage } from 'react-native-flash-message';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Modalize } from 'react-native-modalize';
+import MyCarouser from '../../components/MyCarouser';
 
 export default function Cart({ navigation, route }) {
   const [user, setUser] = useState({});
@@ -151,6 +152,7 @@ export default function Cart({ navigation, route }) {
       fid_user: zz
     }).then(x => {
       setData(x.data);
+      console.log(x.data);
     })
 
   }
@@ -262,7 +264,8 @@ export default function Cart({ navigation, route }) {
               <TouchableOpacity
                 onPress={() => {
                   setItem(item);
-                  modalizeRef.current.open();
+                  navigation.navigate('BarangEdit', item)
+                  // modalizeRef.current.open();
                 }}
                 style={{
                   marginHorizontal: 5,
@@ -318,7 +321,8 @@ export default function Cart({ navigation, route }) {
         // padding: 10,
         backgroundColor: colors.background1,
       }}>
-
+      <MyGap jarak={10} />
+      <MyCarouser />
       <FlatList data={data} renderItem={__renderItem} />
 
 
@@ -338,14 +342,7 @@ export default function Cart({ navigation, route }) {
                   }}>
                   {itemz.nama_barang}
                 </Text>
-                <Text
-                  style={{
-                    fontFamily: fonts.secondary[600],
-                    fontSize: 20,
-                    color: colors.black,
-                  }}>
-                  Rp. {new Intl.NumberFormat().format(itemz.harga * itemz.qty)}
-                </Text>
+
               </View>
               <TouchableOpacity onPress={() => modalizeRef.current.close()}>
                 <Icon type="ionicon" name="close-outline" size={35} />

@@ -24,6 +24,7 @@ import 'intl/locale-data/jsonp/en';
 import LottieView from 'lottie-react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { MyGap } from '../../components';
+import MyHeader from '../../components/MyHeader';
 
 export default function Home({ navigation }) {
   const [user, setUser] = useState({});
@@ -32,6 +33,7 @@ export default function Home({ navigation }) {
   const [produk, setProduk] = useState([]);
   const [cart, setCart] = useState(0);
   const [token, setToken] = useState('');
+  const [comp, setComp] = useState({});
 
   const isFocused = useIsFocused();
 
@@ -59,6 +61,11 @@ export default function Home({ navigation }) {
 
     getDataKategori();
 
+    axios.post(urlAPI + '/company.php').then(c => {
+      console.log(c.data);
+      setComp(c.data);
+    })
+
     if (isFocused) {
       __getDataUserInfo();
     }
@@ -82,13 +89,7 @@ export default function Home({ navigation }) {
     getData('user').then(users => {
       console.log(users);
       setUser(users);
-      axios.post(urlAPI + '/1_cart.php', {
-        fid_user: users.id
-      }).then(res => {
-        console.log('cart', res.data);
 
-        setCart(parseFloat(res.data))
-      })
       getData('token').then(res => {
         console.log('data token,', res);
         setToken(res.token);
@@ -130,18 +131,18 @@ export default function Home({ navigation }) {
         }}>
           <Image style={{
             width: '100%',
-            height: 100,
+            height: 80,
 
           }} source={{
             uri: item.image
           }} />
         </View>
         <Text style={{
-          textAlign: 'center',
-          padding: 10,
+          textAlign: 'left',
+          padding: 7,
           color: colors.white,
           fontFamily: fonts.secondary[600],
-          fontSize: windowWidth / 30,
+          fontSize: windowWidth / 32,
         }}>{item.nama_kategori}</Text>
       </TouchableOpacity>
     )
@@ -154,111 +155,22 @@ export default function Home({ navigation }) {
         flex: 1,
         backgroundColor: colors.white,
       }}>
-
-      <View
-        style={{
-          height: windowHeight / 10,
-          padding: 10,
-          backgroundColor: colors.background1,
-        }}>
-
-
-        <View style={{
-          flexDirection: 'row'
-        }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Barang', {
-            key: 0,
-            id_user: user.id
-          })} style={{
-            flex: 1,
-            height: 40,
-            flexDirection: 'row',
-            backgroundColor: colors.background6,
-            borderRadius: 5,
-
-          }}>
-
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingLeft: 10,
-            }}>
-              <Icon type='ionicon' name="search-outline" color={colors.border} size={windowWidth / 30} />
-            </View>
-            <View style={{
-              paddingLeft: 5,
-              flex: 1,
-              justifyContent: 'center'
-            }}>
-              <Text style={{
-                fontFamily: fonts.secondary[400],
-                color: colors.border,
-                fontSize: windowWidth / 30
-              }}>Search Product</Text>
-            </View>
-
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              Linking.openURL('https://wa.me/62818881222')
-            }}
-            style={{
-              position: 'relative',
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center'
-
-
-            }}>
-            <Icon type='ionicon' name="logo-whatsapp" color={colors.border} />
-
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ListData2')}
-            style={{
-              position: 'relative',
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center'
-
-
-            }}>
-            <Icon type='ionicon' name="bookmark-outline" color={colors.border} />
-
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Cart')}
-            style={{
-              position: 'relative',
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center'
-
-
-            }}>
-            <Icon type='ionicon' name="cart-outline" color={colors.border} />
-            <Text style={{
-              position: 'absolute', top: 2, right: 2, bottom: 5, backgroundColor: colors.primary, width: 18,
-              textAlign: 'center',
-              height: 18, borderRadius: 10, color: colors.white
-            }} >{cart}</Text>
-
-          </TouchableOpacity>
-        </View>
-
-
-      </View>
-
+      <MyHeader telepon={comp.tlp} />
       <ScrollView style={{
         backgroundColor: colors.background1
       }}>
         <MyGap jarak={10} />
+        <View style={{
+          paddingHorizontal: 10
+        }}>
+          <Text style={{
+            fontFamily: fonts.secondary[600],
+            fontSize: windowWidth / 28
+          }}>Halo {user.nama_lengkap}</Text>
+        </View>
+        <MyGap jarak={10} />
         <MyCarouser />
+
 
         {/* list Kategoti */}
         <View>
@@ -269,13 +181,13 @@ export default function Home({ navigation }) {
             padding: 10,
             alignItems: 'center'
           }}>
-            <Icon type='ionicon' name="grid-outline" color={colors.textPrimary} />
+            <Icon type='ionicon' name="grid" color={colors.primary} />
             <Text style={{
               left: 10,
-              color: colors.textPrimary,
+              color: colors.primary,
               fontFamily: fonts.secondary[600],
               fontSize: windowWidth / 25,
-            }}>Kategori Produk</Text>
+            }}>Kategori Produk Surya Connect</Text>
           </View>
           <View style={{
             flex: 1,

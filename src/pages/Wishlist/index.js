@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     TextInput,
     ActivityIndicator,
+    Alert,
 } from 'react-native';
 import { storeData, getData, urlAPI } from '../../utils/localStorage';
 import axios from 'axios';
@@ -19,6 +20,7 @@ import { windowWidth, fonts } from '../../utils/fonts';
 import { Icon } from 'react-native-elements';
 import { showMessage } from 'react-native-flash-message';
 import { Modalize } from 'react-native-modalize';
+import MyHeader from '../../components/MyHeader';
 
 const wait = timeout => {
     return new Promise(resolve => {
@@ -85,7 +87,7 @@ export default function ({ navigation, route }) {
                         color: colors.textSecondary,
                         fontFamily: fonts.secondary[400],
                     }}>
-                    {item.keterangan}
+                    {item.keterangan.substr(0, 80)}
                 </Text>
                 <Text
                     style={{
@@ -94,13 +96,8 @@ export default function ({ navigation, route }) {
                         color: colors.black,
                         fontFamily: fonts.secondary[600],
                     }}>
-                    {new Intl.NumberFormat().format(item.harga_barang)} <Text style={{
-                        fontSize: 12,
-                        fontFamily: fonts.secondary[400],
-                        paddingHorizontal: 2,
-                        borderRadius: 5,
-                    }}>/ {item.satuan}</Text>
-                </Text>
+                    {item.satuan}</Text>
+
                 <TouchableOpacity onPress={() => {
 
                     Alert.alert(
@@ -151,10 +148,10 @@ export default function ({ navigation, route }) {
 
                 }} />
                 <TouchableOpacity onPress={() => {
-                    // navigation.navigate('BarangDetail', item);
+                    navigation.navigate('BarangDetail', item);
                     setShow(item)
 
-                    modalizeRef.current.open();
+                    // modalizeRef.current.open();
 
                 }} style={{
                     width: 80,
@@ -173,7 +170,7 @@ export default function ({ navigation, route }) {
                     }}>Tambah</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     );
 
 
@@ -213,6 +210,7 @@ export default function ({ navigation, route }) {
 
     return (
         <>
+            <MyHeader />
             <ScrollView
                 refreshControl={
                     <RefreshControl

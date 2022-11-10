@@ -23,18 +23,18 @@ import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
 import { Linking } from 'react-native';
 
-export default function BarangDetail({ navigation, route }) {
+export default function BarangEdit({ navigation, route }) {
     const item = route.params;
+    const [comp, setComp] = useState({});
+    console.warn('edit keranjang', item)
     navigation.setOptions({
         headerShown: false,
     });
     const [keyboardStatus, setKeyboardStatus] = useState(false);
 
     const isFocused = useIsFocused();
-    const [comp, setComp] = useState({});
 
-
-    const [jumlah, setJumlah] = useState('1');
+    const [jumlah, setJumlah] = useState(route.params.qty);
     const [user, setUser] = useState({});
     const [cart, setCart] = useState(0);
 
@@ -44,8 +44,6 @@ export default function BarangDetail({ navigation, route }) {
             console.log(c.data);
             setComp(c.data);
         })
-
-
         if (isFocused) {
             // modalizeRef.current.open();
             getData('user').then(res => {
@@ -83,7 +81,7 @@ export default function BarangDetail({ navigation, route }) {
     const addToCart = () => {
         const kirim = {
             fid_user: user.id,
-            fid_barang: item.id,
+            fid_barang: item.id_barang,
             harga_dasar: item.harga_dasar,
             diskon: item.diskon,
             harga: item.harga_barang,
@@ -94,13 +92,15 @@ export default function BarangDetail({ navigation, route }) {
         };
         console.log('kirim tok server', kirim);
         axios
-            .post(urlAPI + '/1add_cart.php', kirim)
+            .post(urlAPI + '/cart_update.php', kirim)
             .then(x => {
+                console.log(x.data);
                 if (x.data == 200) {
                     showMessage({
                         type: 'success',
-                        message: item.nama_barang + ' berhasil ditambahkan ke keranjang !'
-                    })
+                        message: item.nama_barang + ' berhasil diupdate ke keranjang !'
+                    });
+                    // navigation.goBack();
                 } else {
                     showMessage({
                         type: 'danger',
@@ -110,15 +110,66 @@ export default function BarangDetail({ navigation, route }) {
 
             });
     };
-    const [uom, setUom] = useState(route.params.satuan);
-    const [note, setNote] = useState('');
+    const [uom, setUom] = useState(route.params.uom);
+    const [note, setNote] = useState(route.params.note);
     const [pilih, setPilih] = useState({
         a: true,
         b: false,
         c: false,
         d: false,
         e: false
-    })
+    });
+
+    useEffect(() => {
+
+        if (route.params.uom == route.params.satuan) {
+
+            setPilih({
+                a: true,
+                b: false,
+                c: false,
+                d: false,
+                e: false
+            })
+        } else if (route.params.uom == route.params.satuan2) {
+
+            setPilih({
+                a: false,
+                b: true,
+                c: false,
+                d: false,
+                e: false
+            })
+        } else if (route.params.uom == route.params.satuan3) {
+
+            setPilih({
+                a: false,
+                b: false,
+                c: true,
+                d: false,
+                e: false
+            })
+        } else if (route.params.uom == route.params.satuan4) {
+
+            setPilih({
+                a: false,
+                b: false,
+                c: false,
+                d: true,
+                e: false
+            })
+        } else if (route.params.uom == route.params.satuan5) {
+
+            setPilih({
+                a: false,
+                b: false,
+                c: false,
+                d: false,
+                e: true
+            })
+        }
+
+    }, [])
 
     return (
         <SafeAreaView
@@ -153,37 +204,10 @@ export default function BarangDetail({ navigation, route }) {
                             fontSize: windowWidth / 30,
                             color: colors.white,
                         }}>
-                        {item.nama_barang}
+                        Edit Keranjang
                     </Text>
                 </View>
-                <TouchableOpacity onPress={() => {
-                    axios.post(urlAPI + '/1add_wish.php', {
-                        fid_user: user.id,
-                        fid_barang: item.id
-                    }).then(x => {
-                        console.warn('add wishlist', x.data);
 
-                        if (x.data == 200) {
-                            showMessage({
-                                type: 'success',
-                                message: item.nama_barang + ' berhasil ditambahkan ke favorit !'
-                            })
-                        } else {
-                            showMessage({
-                                type: 'danger',
-                                message: item.nama_barang + ' sudah ada di favorit kamu !'
-                            })
-                        }
-                    })
-
-                }} style={{
-                    width: 30,
-                    justifyContent: 'center',
-
-
-                }}>
-                    <Icon type='ionicon' color={colors.white} name='heart' />
-                </TouchableOpacity>
             </View>
             <View
                 style={{
@@ -308,7 +332,7 @@ export default function BarangDetail({ navigation, route }) {
 
 
 
-                    <MyInput onChangeText={x => setNote(x)} iconname="create" placeholder="masukan keterangan jika perlu" multiline label="Catatan" />
+                    <MyInput value={note} onChangeText={x => setNote(x)} iconname="create" placeholder="masukan keterangan jika perlu" multiline label="Catatan" />
                 </View>
 
 

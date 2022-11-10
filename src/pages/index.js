@@ -46,6 +46,7 @@ import AddDua from './AddDua';
 import Kuis from './Kuis';
 import Wishlist from './Wishlist';
 import BarangDetail from './BarangDetail';
+import BarangEdit from './BarangEdit';
 
 
 
@@ -103,5 +104,6 @@ export {
   Redeem,
   ListRedeem,
   Wishlist,
-  BarangDetail
+  BarangDetail,
+  BarangEdit
 };

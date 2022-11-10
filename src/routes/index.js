@@ -57,6 +57,7 @@ import {
   Kuis,
   Wishlist,
   BarangDetail,
+  BarangEdit,
 } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -72,10 +73,11 @@ const MainApp = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Suggest" component={Add} />
 
-      <Tab.Screen name="History" component={ListData} />
+      <Tab.Screen name="Produk" component={Barang} />
 
       <Tab.Screen name="Favorit" component={Wishlist} />
-      <Tab.Screen name="Account" component={Account} />
+
+      <Tab.Screen name="History" component={ListData} />
     </Tab.Navigator>
   );
 };
@@ -654,6 +656,22 @@ export default function Router() {
       />
 
       <Stack.Screen
+        name="BarangEdit"
+        component={BarangEdit}
+        options={{
+          headerShown: false
+        }}
+      />
+
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerShown: false
+        }}
+      />
+
+      <Stack.Screen
         name="BarangPemakaian"
         component={BarangPemakaian}
         options={({ route, navigation }) => ({
@@ -848,7 +866,7 @@ export default function Router() {
         name="ListData2"
         component={ListData2}
         options={({ route, navigation }) => ({
-          title: 'TRANSAKSI TERSIMPAN',
+          title: 'LIST PESANAN',
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.primary,

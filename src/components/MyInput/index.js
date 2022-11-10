@@ -57,6 +57,7 @@ export default function MyInput({
           multiline={multiline}
           autoFocus={autoFocus}
           onFocus={onFocus}
+          placeholderTextColor={colors.border}
           placeholder={placeholder}
           secureTextEntry={secureTextEntry ? tutup : false}
           keyboardType={keyboardType}

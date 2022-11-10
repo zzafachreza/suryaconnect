@@ -46,7 +46,15 @@ export default function Checkout({ navigation, route }) {
   ]);
   const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
+  const [comp, setComp] = useState({});
   useEffect(() => {
+
+    axios.post(urlAPI + '/company.php').then(c => {
+      console.log(c.data);
+      setComp(c.data);
+    })
+
+
     getData('user').then(res => {
       console.error(res)
       setUser(res);
@@ -66,7 +74,7 @@ export default function Checkout({ navigation, route }) {
     setLoading(true)
     console.error('kirim', kirim);
     axios.post(urlAPI + '/1add_transaksi.php', kirim).then(rr => {
-      console.log(rr.data);
+      console.log('https://api.whatsapp.com/send?phone=' + comp.tlp + rr.data);
       setTimeout(() => {
         setLoading(false);
         showMessage({
@@ -74,7 +82,7 @@ export default function Checkout({ navigation, route }) {
           message: 'Transaksi kamu berhasil dikirim'
         });
 
-        Linking.openURL(rr.data)
+        Linking.openURL('https://api.whatsapp.com/send?phone=' + comp.tlp + rr.data)
 
         navigation.replace('ListData');
       }, 1500)
@@ -100,8 +108,8 @@ export default function Checkout({ navigation, route }) {
               color: colors.textPrimary,
               fontFamily: fonts.secondary[600],
               fontSize: windowWidth / 30
-            }}>Nama Pemesan</Text>
-            <Text style={{
+            }}>Pesananmu siap diteruskan ke toko, silahkan tulis catatan apabila ada yang ingin di tanyakan</Text>
+            {/* <Text style={{
               fontFamily: fonts.secondary[400],
               fontSize: windowWidth / 30,
               color: colors.textPrimary,
@@ -116,7 +124,7 @@ export default function Checkout({ navigation, route }) {
               fontFamily: fonts.secondary[400],
               fontSize: windowWidth / 30,
               color: colors.textPrimary
-            }}>{user.alamat}</Text>
+            }}>{user.alamat}</Text> */}
           </View>
 
 

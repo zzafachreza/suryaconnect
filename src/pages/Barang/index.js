@@ -19,6 +19,8 @@ import { windowWidth, fonts } from '../../utils/fonts';
 import { Icon } from 'react-native-elements';
 import { showMessage } from 'react-native-flash-message';
 import { Modalize } from 'react-native-modalize';
+import MyHeader from '../../components/MyHeader';
+import { MyGap } from '../../components';
 
 const wait = timeout => {
   return new Promise(resolve => {
@@ -133,7 +135,7 @@ export default function ({ navigation, route }) {
             color: colors.textSecondary,
             fontFamily: fonts.secondary[400],
           }}>
-          {item.keterangan}
+          {item.keterangan.substr(0, 60)}
         </Text>
         <View style={{
           flexDirection: 'row',
@@ -320,6 +322,7 @@ export default function ({ navigation, route }) {
 
         backgroundColor: colors.background1,
       }}>
+
       <View style={{
         position: 'relative',
         marginBottom: 10,
@@ -358,6 +361,7 @@ export default function ({ navigation, route }) {
 
         <View style={{
           flex: 0.3,
+          marginBottom: 50,
 
         }}>
           <FlatList
@@ -371,6 +375,7 @@ export default function ({ navigation, route }) {
         <View style={{
           flex: 1,
           paddingLeft: 10,
+          marginBottom: 50,
         }}>
           {loading && <View style={{
             flex: 1,
@@ -385,7 +390,9 @@ export default function ({ navigation, route }) {
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />}
+
         </View>
+        <MyGap jarak={100} />
       </View>
 
 

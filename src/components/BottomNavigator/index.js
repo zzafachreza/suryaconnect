@@ -19,7 +19,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
   }
 
   return (
-    <View style={{ backgroundColor: colors.background1, flexDirection: 'row' }}>
+    <View style={{ backgroundColor: colors.primary, flexDirection: 'row' }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -39,7 +39,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
+            navigation.navigate(route.name, {
+              key: 0
+            });
           }
         };
 
@@ -56,9 +58,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         if (label === 'Home') {
           iconName = 'home-outline';
           Newlabel = 'Home';
-        } else if (label === 'Account') {
-          iconName = 'person-outline';
-          Newlabel = 'Akun';
+        } else if (label === 'Produk') {
+          iconName = 'cube-outline';
+          Newlabel = 'Produk';
         } else if (label === 'Kategori') {
           iconName = 'grid-outline';
           Newlabel = 'Kategori';
@@ -66,7 +68,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
           iconName = 'duplicate-outline';
           Newlabel = 'Suggest';
         } else if (label === 'History') {
-          iconName = 'file-tray-stacked-outline';
+          iconName = 'receipt-outline';
           Newlabel = 'History';
         } else if (label === 'Favorit') {
           iconName = 'heart-outline';
@@ -112,13 +114,13 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                   name={isFocused ? iconName.replace('-outline', '') : iconName}
                   type="ionicon"
                   size={windowWidth / 20}
-                  color={isFocused ? colors.primary : colors.primary}
+                  color={isFocused ? colors.white : colors.white}
                 />
 
                 <Text
                   style={{
                     fontSize: windowWidth / 45,
-                    color: isFocused ? colors.primary : colors.primary,
+                    color: isFocused ? colors.white : colors.white,
                   }}>
                   {Newlabel}
                 </Text>

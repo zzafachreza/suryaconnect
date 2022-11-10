@@ -56,6 +56,45 @@ export default function EditProfile({ navigation, route }) {
       padding: 10,
     }}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{
+          padding: 10,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <Text style={{
+            fontFamily: fonts.secondary[600],
+            fontSize: 12
+          }}>Customer ID</Text>
+          <Text style={{
+            fontFamily: fonts.secondary[600],
+            fontSize: 15,
+            color: colors.primary
+          }}>{data.id_customer}</Text>
+        </View>
+
+        <MyInput
+          label="Nama Toko"
+          iconname="home-outline"
+          value={data.nama_toko}
+          onChangeText={value =>
+            setData({
+              ...data,
+              nama_toko: value,
+            })
+          }
+        />
+
+        <MyInput
+          label="Alamat Toko"
+          iconname="location-outline"
+          value={data.alamat_toko}
+          onChangeText={value =>
+            setData({
+              ...data,
+              alamat_toko: value,
+            })
+          }
+        />
         <MyInput
           label="Nama Pribadi"
           iconname="person-outline"

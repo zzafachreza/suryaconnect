@@ -227,17 +227,18 @@ export default function ListDetail({ navigation, route }) {
 
 
           {item.status == 'PENDING' && (<MyButton onPress={() => {
-            axios.post(urlAPI + '/1transaksi_new.php', {
-              kode: item.kode
-            }).then(res => {
-              console.log(res);
-              setItem({
-                ...item,
-                status: 'MENUNGGU PEMBAYARAN'
-              })
 
+
+
+            axios.post(urlAPI + '/1add_cart_new.php', {
+              kode: route.params.kode,
+              fid_user: route.params.fid_user
+            }).then(res => {
+              console.log(res.data);
+              navigation.navigate('Cart');
             })
-          }} title='Buat Pesanan' warna={colors.primary} colorText={colors.white} Icons="checkmark-circle" iconColor={colors.white} />)}
+
+          }} title='Masukan ke keranjang' warna={colors.primary} colorText={colors.white} Icons="checkmark-circle" iconColor={colors.white} />)}
 
 
           <MyGap jarak={20} />

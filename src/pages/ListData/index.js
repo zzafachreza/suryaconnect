@@ -17,6 +17,7 @@ import { windowWidth, fonts } from '../../utils/fonts';
 
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import MyHeader from '../../components/MyHeader';
 const wait = timeout => {
   return new Promise(resolve => {
     setTimeout(resolve, timeout);
@@ -132,24 +133,27 @@ export default function ({ navigation, route }) {
   );
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          colors={[colors.primary]}
+    <>
+      <MyHeader />
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+          />
+        }
+        style={{
+          padding: 10,
+          backgroundColor: colors.background1,
+        }}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
         />
-      }
-      style={{
-        padding: 10,
-        backgroundColor: colors.background1,
-      }}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }
 
