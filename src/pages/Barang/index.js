@@ -49,6 +49,8 @@ export default function ({ navigation, route }) {
     getData('user').then(res => {
       setUser(res);
     })
+
+    getWisth();
     getDataBarang();
     getDataKategori();
   }, []);
@@ -89,12 +91,27 @@ export default function ({ navigation, route }) {
 
   const getDataKategori = () => {
     axios.post(urlAPI + '/1data_kategori.php').then(res => {
-      console.log('kategori', res.data);
+
 
       setKategori(res.data);
     })
   }
+  const [wish, setWish] = useState([]);
 
+  const getWisth = () => {
+    getData('user').then(res => {
+      setUser(res);
+      axios
+        .post(urlAPI + '/1data_wish.php', {
+          fid_user: res.id,
+        })
+        .then(x => {
+          console.log('list wisht', x.data);
+          setWish(x.data);
+        });
+    });
+
+  }
 
   const getDataBarang = (y, z = route.params.key == null ? '' : route.params.key) => {
     setLoading(true);
@@ -103,11 +120,14 @@ export default function ({ navigation, route }) {
       key2: y,
     }).then(res => {
       setMykey('');
-      console.warn(res.data);
+
       setLoading(false);
       setData(res.data);
     });
   };
+
+
+
 
   const renderItem = ({ item }) => (
     <View style={{
@@ -219,6 +239,8 @@ export default function ({ navigation, route }) {
           }).then(x => {
             console.warn('add wishlist', x.data);
 
+            getDataBarang('', route.params.key)
+
             if (x.data == 200) {
               showMessage({
                 type: 'success',
@@ -236,7 +258,8 @@ export default function ({ navigation, route }) {
           width: 30,
           marginVertical: 20,
         }}>
-          <Icon type='ionicon' name='heart-outline' />
+          <Icon type='ionicon' color={wish.filter(i => i.id.toLowerCase().indexOf(item.id.toLowerCase()) > -1).length > 0 ? colors.danger : colors.black}
+            name='heart' />
         </TouchableOpacity>
       </View>
       <View style={{
@@ -254,6 +277,9 @@ export default function ({ navigation, route }) {
         }} />
         <TouchableOpacity onPress={() => {
           navigation.navigate('BarangDetail', item);
+
+
+
           // setShow(item)
 
           // modalizeRef.current.open();
@@ -279,8 +305,16 @@ export default function ({ navigation, route }) {
   );
 
   const __renderItemKategori = ({ item }) => {
+
+
+
     return (
-      <TouchableOpacity onPress={() => getDataBarang('', item.id)} style={{
+      <TouchableOpacity onPress={() => {
+        getDataBarang('', item.id);
+        // alert(item.id)
+
+
+      }} style={{
         marginVertical: 10,
         borderBottomWidth: 1,
         paddingBottom: 10,

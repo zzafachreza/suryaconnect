@@ -89,14 +89,7 @@ export default function ({ navigation, route }) {
                     }}>
                     {item.keterangan.substr(0, 80)}
                 </Text>
-                <Text
-                    style={{
-                        marginVertical: 5,
-                        fontSize: windowWidth / 25,
-                        color: colors.black,
-                        fontFamily: fonts.secondary[600],
-                    }}>
-                    {item.satuan}</Text>
+
 
                 <TouchableOpacity onPress={() => {
 
