@@ -113,6 +113,26 @@ export default function ({ navigation, route }) {
 
   }
 
+  const [kosong, setKosong] = useState(false);
+
+  const getDataBarangCari = (z) => {
+    setLoading(true);
+    axios.post(urlAPI + '/1data_barang_cari.php', {
+      key: z,
+    }).then(res => {
+      setMykey('');
+      console.log(res.data.length)
+      if (res.data.length > 0) {
+        setKosong(false)
+      } else {
+        setKosong(true);
+      }
+      setLoading(false);
+      setData(res.data);
+    });
+  };
+
+
   const getDataBarang = (y, z = route.params.key == null ? '' : route.params.key) => {
     setLoading(true);
     axios.post(urlAPI + '/1data_barang.php', {
@@ -298,7 +318,7 @@ export default function ({ navigation, route }) {
             fontSize: windowWidth / 30,
             color: colors.primary,
             fontFamily: fonts.secondary[600],
-          }}>Detail</Text>
+          }}>Pesan</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -364,7 +384,7 @@ export default function ({ navigation, route }) {
         <TextInput value={myKey} autoCapitalize='none' onSubmitEditing={(x) => {
           console.warn(x.nativeEvent.text);
           setMykey(x.nativeEvent.text);
-          getDataBarang(x.nativeEvent.text);
+          getDataBarangCari(x.nativeEvent.text);
         }}
           onChangeText={x => setMykey(x)}
           placeholderTextColor={colors.border}
@@ -418,12 +438,21 @@ export default function ({ navigation, route }) {
             alignItems: 'center'
           }}>
             <ActivityIndicator size="large" color={colors.primary} /></View>}
-          {!loading && <FlatList
+          {!loading && !kosong && <FlatList
             showsVerticalScrollIndicator={false}
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />}
+
+          {!loading && kosong && <View style={{
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <Text style={{
+              fontFamily: fonts.secondary[600],
+              color: colors.border
+            }}>Pencarian Tidak Ditemukan...</Text></View>}
 
         </View>
         <MyGap jarak={100} />

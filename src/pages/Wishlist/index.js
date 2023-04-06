@@ -21,7 +21,7 @@ import { Icon } from 'react-native-elements';
 import { showMessage } from 'react-native-flash-message';
 import { Modalize } from 'react-native-modalize';
 import MyHeader from '../../components/MyHeader';
-
+import { useIsFocused } from '@react-navigation/native';
 const wait = timeout => {
     return new Promise(resolve => {
         setTimeout(resolve, timeout);
@@ -40,12 +40,16 @@ export default function ({ navigation, route }) {
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
+
+    const isFocused = useIsFocused();
     useEffect(() => {
 
+        if (isFocused) {
+            getDataBarang();
+        }
 
-        getDataBarang();
 
-    }, []);
+    }, [isFocused]);
 
     const getDataBarang = () => {
         getData('user').then(res => {
@@ -71,6 +75,7 @@ export default function ({ navigation, route }) {
             <View style={{
                 flex: 1,
             }}>
+
                 <Text
                     style={{
                         marginVertical: 2,
@@ -90,7 +95,29 @@ export default function ({ navigation, route }) {
                     {item.keterangan.substr(0, 80)}
                 </Text>
 
-
+                <View style={{
+                    marginVertical: 10,
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                }}>
+                    <View style={{
+                        backgroundColor: colors.primary,
+                        justifyContent: 'center',
+                        paddingHorizontal: 20,
+                        borderRadius: 10,
+                        alignItems: 'center',
+                    }}>
+                        <Text
+                            style={{
+                                marginVertical: 2,
+                                fontSize: windowWidth / 30,
+                                color: colors.white,
+                                fontFamily: fonts.secondary[600],
+                            }}>
+                            {item.nama_kategori}
+                        </Text>
+                    </View>
+                </View>
                 <TouchableOpacity onPress={() => {
 
                     Alert.alert(
@@ -131,6 +158,7 @@ export default function ({ navigation, route }) {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
+
                 <Image source={{
                     uri: item.image
                 }} style={{

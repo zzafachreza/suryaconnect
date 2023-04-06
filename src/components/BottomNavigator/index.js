@@ -9,11 +9,34 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { colors } from '../../utils/colors';
-
+import { useState } from 'react';
+import { getData, urlAPI } from '../../utils/localStorage';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native';
 export default function BottomNavigator({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
+  const [cart, setCart] = useState(0);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+
+    // if (isFocused) {
+    //   getData('user').then(users => {
+    //     axios.post(urlAPI + '/1_cart.php', {
+    //       fid_user: users.id
+    //     }).then(res => {
+    //       console.log('cart', res.data);
+
+    //       setCart(parseFloat(res.data))
+    //     })
+    //   })
+    // }
+
+  }, [])
+
+
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
@@ -64,9 +87,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         } else if (label === 'Kategori') {
           iconName = 'grid-outline';
           Newlabel = 'Kategori';
-        } else if (label === 'Suggest') {
-          iconName = 'duplicate-outline';
-          Newlabel = 'Suggest';
+        } else if (label === 'Cart') {
+          iconName = 'cart-outline';
+          Newlabel = 'Keranjang';
         } else if (label === 'History') {
           iconName = 'receipt-outline';
           Newlabel = 'History';
@@ -102,6 +125,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                 alignItems: 'center',
                 textAlign: 'center',
               }}>
+
               <View
                 style={{
                   width: 80,
@@ -109,7 +133,14 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                   height: 50,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  position: 'relative'
                 }}>
+                {/* {label == 'Cart' && <Text style={{
+                  position: 'absolute', top: 0, right: 20, bottom: 0, backgroundColor: colors.white, width: 15,
+                  textAlign: 'center',
+                  fontSize: 11,
+                  height: 15, borderRadius: 10, color: colors.primary
+                }} >{cart}</Text>} */}
                 <Icon
                   name={isFocused ? iconName.replace('-outline', '') : iconName}
                   type="ionicon"

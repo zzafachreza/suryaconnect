@@ -47,6 +47,7 @@ import Kuis from './Kuis';
 import Wishlist from './Wishlist';
 import BarangDetail from './BarangDetail';
 import BarangEdit from './BarangEdit';
+import Produk from './Produk';
 
 
 
@@ -73,6 +74,7 @@ export {
   EditProfile,
   Jenis,
   Wa,
+  Produk,
   Masuk,
   Keluar,
   Brand,

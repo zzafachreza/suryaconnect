@@ -130,7 +130,7 @@ export default function MyHeader({ telepon }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('Cart')}
+          onPress={() => navigation.navigate('Add')}
           style={{
             position: 'relative',
             width: 30,
@@ -140,13 +140,7 @@ export default function MyHeader({ telepon }) {
 
 
           }}>
-          <Icon type='ionicon' name="cart-outline" color={colors.white} />
-          <Text style={{
-            position: 'absolute', top: -5, right: -5, bottom: 5, backgroundColor: colors.white, width: 15,
-            textAlign: 'center',
-            fontSize: 11,
-            height: 15, borderRadius: 10, color: colors.primary
-          }} >{cart}</Text>
+          <Icon type='ionicon' name="duplicate-outline" color={colors.white} />
 
         </TouchableOpacity>
         <TouchableOpacity

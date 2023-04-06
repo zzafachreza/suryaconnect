@@ -152,7 +152,7 @@ export default function Cart({ navigation, route }) {
       fid_user: zz
     }).then(x => {
       setData(x.data);
-      console.log(x.data);
+      console.log('info cart', x.data);
     })
 
   }
@@ -227,6 +227,10 @@ export default function Cart({ navigation, route }) {
               }}>
               {item.qty} {item.uom}
             </Text>
+            <Text style={{
+              color: colors.primary,
+              fontSize: 10,
+            }}>{item.nama_kategori}</Text>
             <Text
               style={{
                 fontFamily: fonts.secondary[400],

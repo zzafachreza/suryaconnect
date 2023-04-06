@@ -58,22 +58,26 @@ import {
   Wishlist,
   BarangDetail,
   BarangEdit,
+  Produk,
 } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
 import { colors } from '../utils/colors';
 import { color } from 'react-native-reanimated';
+import { getData, urlAPI } from '../../utils/localStorage';
+import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const MainApp = () => {
   return (
-    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />}>
+    <Tab.Navigator initialRouteName='Produk' tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Suggest" component={Add} />
+      <Tab.Screen name="Cart" component={Cart} />
 
-      <Tab.Screen name="Produk" component={Barang} />
+      <Tab.Screen name="Produk" component={Produk} />
 
       <Tab.Screen name="Favorit" component={Wishlist} />
 
