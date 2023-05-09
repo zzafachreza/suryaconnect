@@ -190,47 +190,46 @@ export default function BarangDetail({ navigation, route }) {
                     flex: 1,
                     backgroundColor: colors.background1,
                 }}>
-                {!keyboardStatus && <Image
-                    style={{
-                        height: windowHeight / 3.5,
-                        width: windowWidth,
-                        resizeMode: 'contain'
-                    }}
-                    source={{
-                        uri: item.image,
-                    }}
-                />}
+                {!keyboardStatus && <View style={{
+                    flex: 1,
+                }}>
+                    <Image
+                        style={{
+                            height: '100%',
+                            width: windowWidth,
+                            resizeMode: 'contain'
+                        }}
+                        source={{
+                            uri: item.image,
+                        }}
+                    /></View>}
 
 
                 <View
                     style={{
                         backgroundColor: colors.background1,
-                        flex: 1,
+                        // flex: 1,
                         padding: 10,
                     }}>
+
 
                     <Text
                         style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: windowWidth / 20,
+                            fontSize: 13,
                             color: colors.black,
                         }}>
                         {item.nama_barang}
                     </Text>
-                    <ScrollView style={{
-                        height: 30
-                    }}>
-                        <Text
-                            style={{
-                                fontFamily: fonts.secondary[400],
-                                fontSize: windowWidth / 32,
-                                color: colors.black,
+                    <Text
+                        style={{
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 10,
+                            color: colors.black,
 
-                            }}>
-                            {item.keterangan}
-                        </Text>
-                    </ScrollView>
-
+                        }}>
+                        {item.keterangan}
+                    </Text>
 
 
 
@@ -402,7 +401,7 @@ export default function BarangDetail({ navigation, route }) {
                     }}>
                         <TouchableOpacity
                             onPress={() => {
-                                let pesan = 'https://wa.me/' + comp.tlp + '?text=Mau tanya ' + item.nama_barang;
+                                let pesan = 'https://wa.me/' + comp.tlp + '?text=Hai Kak, saya ingin menanyakan tentang produk *' + item.nama_barang + '* Boleh dibantu';
                                 console.log(pesan)
                                 Linking.openURL(pesan)
                             }}
@@ -436,7 +435,7 @@ export default function BarangDetail({ navigation, route }) {
 
 const styles = StyleSheet.create({
     not: {
-        width: 60,
+        width: 80,
         borderRadius: 20,
         borderWidth: 2,
         marginHorizontal: 2,
@@ -447,7 +446,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     ok: {
-        width: 60,
+        width: 80,
         marginHorizontal: 2,
         borderRadius: 20,
         borderWidth: 2,
@@ -459,12 +458,12 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     notText: {
-        fontSize: windowWidth / 35,
+        fontSize: windowWidth / 28,
         color: colors.primary,
         fontFamily: fonts.secondary[600],
     },
     okText: {
-        fontSize: windowWidth / 35,
+        fontSize: windowWidth / 28,
         color: colors.white,
         fontFamily: fonts.secondary[600],
     }

@@ -214,121 +214,46 @@ export default function BarangEdit({ navigation, route }) {
                     flex: 1,
                     backgroundColor: colors.background1,
                 }}>
-                {!keyboardStatus && <Image
-                    style={{
-                        height: windowHeight / 3.5,
-                        width: windowWidth
-                    }}
-                    source={{
-                        uri: item.image,
-                    }}
-                />}
+                {!keyboardStatus && <View style={{
+                    flex: 1,
+                }}>
+                    <Image
+                        style={{
+                            height: '100%',
+                            width: windowWidth,
+                            resizeMode: 'contain'
+                        }}
+                        source={{
+                            uri: item.image,
+                        }}
+                    /></View>}
 
 
                 <View
                     style={{
                         backgroundColor: colors.background1,
-                        flex: 1,
                         padding: 10,
                     }}>
 
                     <Text
                         style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: windowWidth / 20,
+                            fontSize: 13,
                             color: colors.black,
                         }}>
                         {item.nama_barang}
                     </Text>
-                    <ScrollView style={{
-                        height: 30
-                    }}>
-                        <Text
-                            style={{
-                                fontFamily: fonts.secondary[400],
-                                fontSize: windowWidth / 32,
-                                color: colors.black,
 
-                            }}>
-                            {item.keterangan}
-                        </Text>
-                    </ScrollView>
-                    {/* pilihan uom */}
-                    <View style={{ flexDirection: 'row' }}>
+                    <Text
+                        style={{
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 10,
+                            color: colors.black,
 
-                        <TouchableOpacity onPress={() => {
-                            setPilih({
-                                a: true,
-                                b: false,
-                                c: false,
-                                d: false,
-                                e: false
-                            });
-                            setUom(item.satuan)
-                        }} style={pilih.a ? styles.ok : styles.not}>
-                            <Text style={pilih.a ? styles.okText : styles.notText}>{item.satuan}</Text>
-                        </TouchableOpacity>
+                        }}>
+                        {item.keterangan}
+                    </Text>
 
-                        {item.satuan2 !== "" &&
-                            <TouchableOpacity onPress={() => {
-                                setPilih({
-                                    a: false,
-                                    b: true,
-                                    c: false,
-                                    d: false,
-                                    e: false
-                                });
-                                setUom(item.satuan2)
-                            }} style={pilih.b ? styles.ok : styles.not}>
-                                <Text style={pilih.b ? styles.okText : styles.notText}>{item.satuan2}</Text>
-                            </TouchableOpacity>
-                        }
-
-                        {item.satuan3 !== "" &&
-
-                            <TouchableOpacity onPress={() => {
-                                setPilih({
-                                    a: false,
-                                    b: false,
-                                    c: true,
-                                    d: false,
-                                    e: false
-                                });
-                                setUom(item.satuan3)
-                            }} style={pilih.c ? styles.ok : styles.not}>
-                                <Text style={pilih.c ? styles.okText : styles.notText}>{item.satuan3}</Text>
-                            </TouchableOpacity>
-                        }
-
-                        {item.satuan4 !== "" &&
-                            <TouchableOpacity onPress={() => {
-                                setPilih({
-                                    a: false,
-                                    b: false,
-                                    c: false,
-                                    d: true,
-                                    e: false
-                                });
-                                setUom(item.satuan4)
-                            }} style={pilih.d ? styles.ok : styles.not}>
-                                <Text style={pilih.d ? styles.okText : styles.notText}>{item.satuan4}</Text>
-                            </TouchableOpacity>
-                        }
-
-                        {item.satuan5 !== "" &&
-                            <TouchableOpacity onPress={() => {
-                                setPilih({
-                                    a: false,
-                                    b: false,
-                                    c: false,
-                                    d: false,
-                                    e: true
-                                });
-                                setUom(item.satuan5)
-                            }} style={pilih.e ? styles.ok : styles.not}>
-                                <Text style={pilih.e ? styles.okText : styles.notText}>{item.satuan5}</Text>
-                            </TouchableOpacity>}
-                    </View>
 
 
 
@@ -407,6 +332,94 @@ export default function BarangEdit({ navigation, route }) {
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                <Text
+                    style={{
+                        marginHorizontal: 10,
+                        fontFamily: fonts.secondary[600],
+                        color: colors.textPrimary,
+                    }}>
+                    Pilih Satuan
+                </Text>
+
+                {/* pilihan uom */}
+                <View style={{ flexDirection: 'row' }}>
+
+                    <TouchableOpacity onPress={() => {
+                        setPilih({
+                            a: true,
+                            b: false,
+                            c: false,
+                            d: false,
+                            e: false
+                        });
+                        setUom(item.satuan)
+                    }} style={pilih.a ? styles.ok : styles.not}>
+                        <Text style={pilih.a ? styles.okText : styles.notText}>{item.satuan}</Text>
+                    </TouchableOpacity>
+
+                    {item.satuan2 !== "" &&
+                        <TouchableOpacity onPress={() => {
+                            setPilih({
+                                a: false,
+                                b: true,
+                                c: false,
+                                d: false,
+                                e: false
+                            });
+                            setUom(item.satuan2)
+                        }} style={pilih.b ? styles.ok : styles.not}>
+                            <Text style={pilih.b ? styles.okText : styles.notText}>{item.satuan2}</Text>
+                        </TouchableOpacity>
+                    }
+
+                    {item.satuan3 !== "" &&
+
+                        <TouchableOpacity onPress={() => {
+                            setPilih({
+                                a: false,
+                                b: false,
+                                c: true,
+                                d: false,
+                                e: false
+                            });
+                            setUom(item.satuan3)
+                        }} style={pilih.c ? styles.ok : styles.not}>
+                            <Text style={pilih.c ? styles.okText : styles.notText}>{item.satuan3}</Text>
+                        </TouchableOpacity>
+                    }
+
+                    {item.satuan4 !== "" &&
+                        <TouchableOpacity onPress={() => {
+                            setPilih({
+                                a: false,
+                                b: false,
+                                c: false,
+                                d: true,
+                                e: false
+                            });
+                            setUom(item.satuan4)
+                        }} style={pilih.d ? styles.ok : styles.not}>
+                            <Text style={pilih.d ? styles.okText : styles.notText}>{item.satuan4}</Text>
+                        </TouchableOpacity>
+                    }
+
+                    {item.satuan5 !== "" &&
+                        <TouchableOpacity onPress={() => {
+                            setPilih({
+                                a: false,
+                                b: false,
+                                c: false,
+                                d: false,
+                                e: true
+                            });
+                            setUom(item.satuan5)
+                        }} style={pilih.e ? styles.ok : styles.not}>
+                            <Text style={pilih.e ? styles.okText : styles.notText}>{item.satuan5}</Text>
+                        </TouchableOpacity>}
+                </View>
+
+
                 <View style={{ margin: 10, flexDirection: 'row' }}>
                     <View style={{
                         justifyContent: 'center',
@@ -414,7 +427,9 @@ export default function BarangEdit({ navigation, route }) {
                     }}>
                         <TouchableOpacity
                             onPress={() => {
-                                Linking.openURL('https://wa.me/' + comp.tlp)
+                                let pesan = 'https://wa.me/' + comp.tlp + '?text=Hai Kak, saya ingin menanyakan tentang produk *' + item.nama_barang + '* Boleh dibantu';
+                                console.log(pesan)
+                                Linking.openURL(pesan)
                             }}
                             style={{
 
@@ -444,9 +459,10 @@ export default function BarangEdit({ navigation, route }) {
     );
 }
 
+
 const styles = StyleSheet.create({
     not: {
-        width: 60,
+        width: 80,
         borderRadius: 20,
         borderWidth: 2,
         marginHorizontal: 2,
@@ -457,7 +473,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     ok: {
-        width: 60,
+        width: 80,
         marginHorizontal: 2,
         borderRadius: 20,
         borderWidth: 2,
@@ -469,12 +485,12 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     notText: {
-        fontSize: windowWidth / 35,
+        fontSize: windowWidth / 28,
         color: colors.primary,
         fontFamily: fonts.secondary[600],
     },
     okText: {
-        fontSize: windowWidth / 35,
+        fontSize: windowWidth / 28,
         color: colors.white,
         fontFamily: fonts.secondary[600],
     }

@@ -21,6 +21,7 @@ import { showMessage } from 'react-native-flash-message';
 import { Modalize } from 'react-native-modalize';
 import MyHeader from '../../components/MyHeader';
 import { MyGap } from '../../components';
+import { useCallback } from 'react';
 
 const wait = timeout => {
   return new Promise(resolve => {
@@ -120,7 +121,7 @@ export default function ({ navigation, route }) {
     axios.post(urlAPI + '/1data_barang_cari.php', {
       key: z,
     }).then(res => {
-      setMykey('');
+      // setMykey('');
       console.log(res.data.length)
       if (res.data.length > 0) {
         setKosong(false)
@@ -139,162 +140,189 @@ export default function ({ navigation, route }) {
       key: z,
       key2: y,
     }).then(res => {
-      setMykey('');
+      // setMykey('');
 
       setLoading(false);
       setData(res.data);
     });
   };
 
-
+  const [showMore, setShowMore] = useState(false);
+  const onTextLayout = useCallback(e => {
+    setShowMore(e.nativeEvent.lines.length > 2);
+  }, []);
 
 
   const renderItem = ({ item }) => (
     <View style={{
-      flexDirection: 'row',
       marginVertical: 5,
       borderBottomWidth: 1,
       borderBottomColor: colors.border_list
     }}>
       <View style={{
-        flex: 1,
+        flexDirection: 'row'
       }}>
-        <Text
-          style={{
-            marginVertical: 2,
-            fontSize: windowWidth / 30,
-            color: colors.black,
-            fontFamily: fonts.secondary[600],
-          }}>
-          {item.nama_barang}
-        </Text>
-        <Text
-          style={{
-            marginVertical: 2,
-            fontSize: windowWidth / 30,
-            color: colors.textSecondary,
-            fontFamily: fonts.secondary[400],
-          }}>
-          {item.keterangan.substr(0, 60)}
-        </Text>
         <View style={{
-          flexDirection: 'row',
-
+          flex: 1,
         }}>
           <Text
+            numberOfLines={2}
+            onTextLayout={onTextLayout}
             style={{
-              marginVertical: 5,
-              fontSize: windowWidth / 35,
-              color: colors.white,
-              paddingHorizontal: 5,
-              backgroundColor: colors.primary,
-              borderRadius: 3,
-              marginHorizontal: 2,
+              marginVertical: 2,
+              fontSize: windowWidth / 30,
+              color: colors.black,
               fontFamily: fonts.secondary[600],
             }}>
-            {item.satuan}
+            {item.nama_barang}
           </Text>
-          {item.satuan2 !== "" && <Text
+          <Text
+            numberOfLines={2}
+            onTextLayout={onTextLayout}
             style={{
-              marginVertical: 5,
-              fontSize: windowWidth / 35,
-              color: colors.white,
-              paddingHorizontal: 5,
-              backgroundColor: colors.primary,
-              borderRadius: 3,
-              marginHorizontal: 2,
-              fontFamily: fonts.secondary[600],
+              marginVertical: 2,
+              fontSize: windowWidth / 30,
+              color: colors.textSecondary,
+              fontFamily: fonts.secondary[400],
             }}>
-            {item.satuan2}
-          </Text>}
-
-          {item.satuan3 !== "" && <Text
-            style={{
-              marginVertical: 5,
-              fontSize: windowWidth / 35,
-              color: colors.white,
-              paddingHorizontal: 5,
-              backgroundColor: colors.primary,
-              borderRadius: 3,
-              marginHorizontal: 2,
-              fontFamily: fonts.secondary[600],
-            }}>
-            {item.satuan3}
-          </Text>}
-
-          {item.satuan4 !== "" && <Text
-            style={{
-              marginVertical: 5,
-              fontSize: windowWidth / 35,
-              color: colors.white,
-              paddingHorizontal: 5,
-              backgroundColor: colors.primary,
-              borderRadius: 3,
-              marginHorizontal: 2,
-              fontFamily: fonts.secondary[600],
-            }}>
-            {item.satuan4}
-          </Text>}
-
-          {item.satuan5 !== "" && <Text
-            style={{
-              marginVertical: 5,
-              fontSize: windowWidth / 35,
-              color: colors.white,
-              paddingHorizontal: 5,
-              backgroundColor: colors.primary,
-              borderRadius: 3,
-              marginHorizontal: 2,
-              fontFamily: fonts.secondary[600],
-            }}>
-            {item.satuan5}
-          </Text>}
+            {item.keterangan}
+          </Text>
 
 
         </View>
-        <TouchableOpacity onPress={() => {
-          axios.post(urlAPI + '/1add_wish.php', {
-            fid_user: user.id,
-            fid_barang: item.id
-          }).then(x => {
-            console.warn('add wishlist', x.data);
-
-            getDataBarang('', route.params.key)
-
-            if (x.data == 200) {
-              showMessage({
-                type: 'success',
-                message: item.nama_barang + ' berhasil ditambahkan ke favorit !'
-              })
-            } else {
-              showMessage({
-                type: 'danger',
-                message: item.nama_barang + ' sudah ada di favorit kamu !'
-              })
-            }
-          })
-
-        }} style={{
-          width: 30,
-          marginVertical: 20,
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center'
         }}>
-          <Icon type='ionicon' color={wish.filter(i => i.id.toLowerCase().indexOf(item.id.toLowerCase()) > -1).length > 0 ? colors.danger : colors.black}
-            name='heart' />
-        </TouchableOpacity>
+          <Image source={{
+            uri: item.image
+          }} style={{
+            alignSelf: 'center',
+            resizeMode: 'contain',
+            width: 70,
+            height: 70,
+            borderRadius: 10,
+
+          }} />
+
+        </View>
+      </View>
+      {/*  */}
+
+      <View style={{
+        flexDirection: 'row',
+
+      }}>
+        <Text
+          style={{
+            marginVertical: 5,
+            fontSize: windowWidth / 35,
+            color: colors.white,
+            paddingHorizontal: 5,
+            backgroundColor: colors.primary,
+            borderRadius: 3,
+            marginHorizontal: 2,
+            fontFamily: fonts.secondary[600],
+          }}>
+          {item.satuan}
+        </Text>
+        {item.satuan2 !== "" && <Text
+          style={{
+            marginVertical: 5,
+            fontSize: windowWidth / 35,
+            color: colors.white,
+            paddingHorizontal: 5,
+            backgroundColor: colors.primary,
+            borderRadius: 3,
+            marginHorizontal: 2,
+            fontFamily: fonts.secondary[600],
+          }}>
+          {item.satuan2}
+        </Text>}
+
+        {item.satuan3 !== "" && <Text
+          style={{
+            marginVertical: 5,
+            fontSize: windowWidth / 35,
+            color: colors.white,
+            paddingHorizontal: 5,
+            backgroundColor: colors.primary,
+            borderRadius: 3,
+            marginHorizontal: 2,
+            fontFamily: fonts.secondary[600],
+          }}>
+          {item.satuan3}
+        </Text>}
+
+        {item.satuan4 !== "" && <Text
+          style={{
+            marginVertical: 5,
+            fontSize: windowWidth / 35,
+            color: colors.white,
+            paddingHorizontal: 5,
+            backgroundColor: colors.primary,
+            borderRadius: 3,
+            marginHorizontal: 2,
+            fontFamily: fonts.secondary[600],
+          }}>
+          {item.satuan4}
+        </Text>}
+
+        {item.satuan5 !== "" && <Text
+          style={{
+            marginVertical: 5,
+            fontSize: windowWidth / 35,
+            color: colors.white,
+            paddingHorizontal: 5,
+            backgroundColor: colors.primary,
+            borderRadius: 3,
+            marginHorizontal: 2,
+            fontFamily: fonts.secondary[600],
+          }}>
+          {item.satuan5}
+        </Text>}
+
+
       </View>
       <View style={{
-        justifyContent: 'center',
-        alignItems: 'center'
+        flexDirection: 'row'
       }}>
-        <Image source={{
-          uri: item.image
-        }} style={{
-          alignSelf: 'center',
-          width: 80,
-          height: 80,
-          borderRadius: 10,
+        <View style={{
+          flex: 1,
+        }}>
+          <TouchableOpacity onPress={() => {
+            axios.post(urlAPI + '/1add_wish.php', {
+              fid_user: user.id,
+              fid_barang: item.id
+            }).then(x => {
+              console.warn('add wishlist', x.data);
 
-        }} />
+              getDataBarang('', route.params.key)
+
+              if (x.data == 200) {
+                showMessage({
+                  type: 'success',
+                  message: item.nama_barang + ' berhasil ditambahkan ke favorit !'
+                })
+              } else {
+                showMessage({
+                  type: 'danger',
+                  message: item.nama_barang + ' sudah ada di favorit kamu !'
+                })
+              }
+            })
+
+          }} style={{
+
+            width: 30,
+
+            marginVertical: 20,
+          }}>
+            <Icon type='ionicon' color={wish.filter(i => i.id.toLowerCase().indexOf(item.id.toLowerCase()) > -1).length > 0 ? colors.danger : colors.black}
+              name='heart' />
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity onPress={() => {
           navigation.navigate('BarangDetail', item);
 
@@ -452,7 +480,7 @@ export default function ({ navigation, route }) {
             <Text style={{
               fontFamily: fonts.secondary[600],
               color: colors.border
-            }}>Pencarian Tidak Ditemukan...</Text></View>}
+            }}>Oops, produk yang Anda cari tidak ditemukan, coba kata kunci lain.</Text></View>}
 
         </View>
         <MyGap jarak={100} />
