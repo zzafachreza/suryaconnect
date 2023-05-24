@@ -38,6 +38,48 @@ export default function ({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [myKey, setMykey] = useState('');
 
+  const [liked, setLiked] = useState([]);
+  const addWish = (x) => {
+
+    console.log(liked);
+    if (liked.includes(x)) {
+      let unlike = liked.filter((elem) => elem !== x);
+      setLiked(unlike);
+
+      axios.post(urlAPI + '/1delete_wish.php', {
+        fid_user: user.id,
+        fid_barang: x
+      }).then(unl => {
+        console.warn('delete wishlist', unl.data);
+
+
+      })
+
+    } else {
+      setLiked([...liked, x]);
+      axios.post(urlAPI + '/1add_wish.php', {
+        fid_user: user.id,
+        fid_barang: x
+      }).then(xs => {
+        console.warn('add wishlist', xs.data);
+
+        // getDataBarang('', route.params.key)
+
+        if (xs.data == 200) {
+          showMessage({
+            type: 'success',
+            message: 'berhasil ditambahkan ke favorit !'
+          })
+        }
+      })
+    }
+
+
+
+
+
+  }
+
   // const key = route.params.key;
 
   // const onRefresh = React.useCallback(() => {
@@ -49,9 +91,18 @@ export default function ({ navigation, route }) {
   useEffect(() => {
     getData('user').then(res => {
       setUser(res);
+      axios
+        .post(urlAPI + '/1data_wish_get.php', {
+          fid_user: res.id,
+        })
+        .then(rsss => {
+          console.log('list wisht', rsss.data);
+          setLiked(rsss.data);
+          // setWish(x.data);
+          // getDataBarang();
+        });
     })
 
-    getWisth();
     getDataBarang();
     getDataKategori();
   }, []);
@@ -136,6 +187,7 @@ export default function ({ navigation, route }) {
 
   const getDataBarang = (y, z = route.params.key == null ? '' : route.params.key) => {
     setLoading(true);
+    setKosong(false);
     axios.post(urlAPI + '/1data_barang.php', {
       key: z,
       key2: y,
@@ -195,7 +247,7 @@ export default function ({ navigation, route }) {
           alignItems: 'center'
         }}>
           <Image source={{
-            uri: item.image
+            uri: item.image == 'https://suryaconnect.zavalabs.com/' ? 'https://zavalabs.com/nogambar.jpg' : item.image
           }} style={{
             alignSelf: 'center',
             resizeMode: 'contain',
@@ -204,7 +256,6 @@ export default function ({ navigation, route }) {
             borderRadius: 10,
 
           }} />
-
         </View>
       </View>
       {/*  */}
@@ -290,35 +341,13 @@ export default function ({ navigation, route }) {
         <View style={{
           flex: 1,
         }}>
-          <TouchableOpacity onPress={() => {
-            axios.post(urlAPI + '/1add_wish.php', {
-              fid_user: user.id,
-              fid_barang: item.id
-            }).then(x => {
-              console.warn('add wishlist', x.data);
-
-              getDataBarang('', route.params.key)
-
-              if (x.data == 200) {
-                showMessage({
-                  type: 'success',
-                  message: item.nama_barang + ' berhasil ditambahkan ke favorit !'
-                })
-              } else {
-                showMessage({
-                  type: 'danger',
-                  message: item.nama_barang + ' sudah ada di favorit kamu !'
-                })
-              }
-            })
-
-          }} style={{
+          <TouchableOpacity onPress={() => addWish(item.id)} style={{
 
             width: 30,
 
             marginVertical: 20,
           }}>
-            <Icon type='ionicon' color={wish.filter(i => i.id.toLowerCase().indexOf(item.id.toLowerCase()) > -1).length > 0 ? colors.danger : colors.black}
+            <Icon type='ionicon' color={liked.includes(item.id) ? colors.danger : colors.black}
               name='heart' />
           </TouchableOpacity>
         </View>
