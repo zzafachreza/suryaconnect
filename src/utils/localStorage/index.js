@@ -20,4 +20,4 @@ export const getData = async key => {
 };
 
 
-export const urlAPI = 'https://suryaconnect.zavalabs.com/api';
+export const urlAPI = 'https://spconnect.my.id/api';
